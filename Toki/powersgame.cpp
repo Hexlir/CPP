@@ -28,7 +28,16 @@ int main()
     cin >> t;
     for (ll i = 1; i <= t; i++)
     {
-        
+        ll n;
+
+        cin >> n;
+
+        if(n % 8 == 0){
+            cout << "Second" << endl;
+        }
+        else{
+            cout << "First" << endl;
+        }
     }
 
     return 0;
