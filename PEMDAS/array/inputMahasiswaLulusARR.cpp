@@ -24,12 +24,12 @@ int main()
 
     vector<int> lulus;
 
-    ll arr[t];
     for (ll i = 1; i <= t; i++){
+        ll temp;
         cout << "Masukkan nilai absen ke-" << i << ": ";
-        cin >> arr[i];
-
-        if (arr[i] > 50){
+        cin >> temp;
+        
+        if (temp > 50){
             lulus.pb(i);
         }
     }
@@ -45,6 +45,6 @@ int main()
     else{
         cout << "Tidak ada mahasiswa yang lulus";
     }
-    
+
     return 0;
 }
