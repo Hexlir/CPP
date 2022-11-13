@@ -1,9 +1,0 @@
-procedure mystery (a: integer; b:integer;) {
-    var m:integer;
-    if (a != b){
-        write ('GDSC2022');
-        m=(a + b) / 2;
-        mystery (a, m)
-        mystery (m, b)  
-    }
-}
