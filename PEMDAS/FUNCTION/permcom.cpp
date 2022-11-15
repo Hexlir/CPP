@@ -1,5 +1,4 @@
 #include "bits/stdc++.h"
-#define ull unsigned long long
 #define endl '\n'
 
 using namespace std;
