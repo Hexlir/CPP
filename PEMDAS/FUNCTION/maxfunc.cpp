@@ -1,8 +1,8 @@
-#include "bits/stdc++.h"
+#include "iostream"
 
 using namespace std;
 
-int max(int a, int b)
+void max(auto a, auto b)
 {
     return (a > b) ? a : b;
 }
