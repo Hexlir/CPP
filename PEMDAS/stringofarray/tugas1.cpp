@@ -4,7 +4,10 @@
 // scanf(), gets() dan fgets(). 
 // Analisislah dan berikan kesimpulan untuk setiap fungsi tsb!
 
-#include "bits/stdc++.h"
+#include <iostream>
+#include <string.h>
+#include "stdio.h"
+
 
 using namespace std;
 
