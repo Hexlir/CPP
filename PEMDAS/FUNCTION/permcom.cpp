@@ -3,7 +3,7 @@
 
 using namespace std;
 
-auto factorial(auto n)
+unsigned long long factorial(int n)
 {
     if (n == 0)
     {
@@ -15,12 +15,12 @@ auto factorial(auto n)
     }
 }
 
-auto perm(auto n, auto r)
+unsigned long long perm(int n, int r)
 {
     return factorial(n) / factorial(n - r);
 }
 
-auto comb(auto n, auto r)
+unsigned long long comb(int n, int r)
 {
     return factorial(n) / (factorial(r) * factorial(n - r));
 }
