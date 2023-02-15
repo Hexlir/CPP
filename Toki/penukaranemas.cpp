@@ -19,5 +19,8 @@ int count(int n){
 }
 
 int main(){
-
+    int n;
+    cin >> n;
+    cout << count(n) << endl;
+    return 0;
 }
