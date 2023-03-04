@@ -17,15 +17,23 @@ void fastio()
     cout.tie(0);
 }
 
-int main()
-{
-    fastio();
+ll modexp(ll n, ll m, ll mod){
+    ll temp = 1;
+    while(m){
+        if (m & 1){
+            temp = (temp * n) % mod;
+        }
+        n = (n * n) % mod;
+        m >>= 1;
+    }
+    return temp;
+}
+
+int main(){
     ll a,b,c,n;
     cin >> a >> b >> c >> n;
-    
-    ll pangkat = b*c;
-    ll hasil = pow(a,pow(b,c));
-
-    cout << hasil % (n + 1) << endl; 
-    return 0;
+    while(c--){
+        a = modexp(a,b,n) % n;
+    }
+    cout << a + 1 << endl;
 }
