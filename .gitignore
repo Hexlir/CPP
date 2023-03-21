@@ -1,2 +1,6 @@
 ALGORITHM
 Algoritma Pemrograman
+
+# Ignore every .exe extension
+*.exe
+*.o
