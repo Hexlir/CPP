@@ -60,6 +60,15 @@ bool isInRange(int n, int min, int max){
     return false;
 }
 
+bool isNimThere(int nim){
+    for(int i = 0; i < dataMahasiswa.size(); i++){
+        if(dataMahasiswa[i].nim == nim){
+            return true;
+        }
+    }
+    return false;
+}
+
 void getInputWithSpace(string &s){
     cin.ignore();
     getline(cin, s);
@@ -81,7 +90,7 @@ void inputData(){
 
     cout << "Masukkan NIM : ";
     cin >> temp;
-    while(isEmpty(temp) || !isNumber(temp) || !isInRange(stoi(temp), 1000, 9999)){
+    while(isEmpty(temp) || !isNumber(temp) || !isInRange(stoi(temp), 1000, 9999) || isNimThere(stoi(temp))){
         Warning w;
         cout << w.what() << endl;
         cout << "Masukkan NIM : ";
@@ -150,125 +159,93 @@ void tableData(vector<dataMhs> dataMahasiswa){
         << dataMahasiswa[i].nilaiAkhir << setw(2) << "|" << endl;
     }
     cout << "+" << setfill('-') << setw(115) << "+" << endl;
-    cout << "Tekan Enter Untuk Kembali Ke Menu Utama" << endl;
-    cin.get();
-    cin.get();
 }
 
-void mergesortByNilaiAkhir(vector<dataMhs> &dataMahasiswa, int left, int right){
-    if(left < right){
-        int mid = (left + right) / 2;
-        mergesortByNilaiAkhir(dataMahasiswa, left, mid);
-        mergesortByNilaiAkhir(dataMahasiswa, mid + 1, right);
-        int i = left;
-        int j = mid + 1;
-        int k = 0;
-        vector<dataMhs> temp;
-        while(i <= mid && j <= right){
-            if(dataMahasiswa[i].nilaiAkhir < dataMahasiswa[j].nilaiAkhir){
-                temp.push_back(dataMahasiswa[i]);
-                i++;
-            }else{
-                temp.push_back(dataMahasiswa[j]);
-                j++;
-            }
-            k++;
-        }
-        while(i <= mid){
-            temp.push_back(dataMahasiswa[i]);
+
+void mergeByNilaiAkhirDesc(vector<dataMhs> &dataMahasiswa, int left, int mid, int right){
+    int i, j, k;
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    vector<dataMhs> L, R;
+    for(i = 0; i < n1; i++){
+        L.push_back(dataMahasiswa[left + i]);
+    }
+    for(j = 0; j < n2; j++){
+        R.push_back(dataMahasiswa[mid + 1 + j]);
+    }
+
+    i = 0;
+    j = 0;
+    k = left;
+
+    while(i < n1 && j < n2){
+        if(L[i].nilaiAkhir >= R[j].nilaiAkhir){
+            dataMahasiswa[k] = L[i];
             i++;
-            k++;
-        }
-        while(j <= right){
-            temp.push_back(dataMahasiswa[j]);
+        }else{
+            dataMahasiswa[k] = R[j];
             j++;
-            k++;
         }
-        for(int i = left; i <= right; i++){
-            dataMahasiswa[i] = temp[i - left];
-        }
+        k++;
+    }
+
+    while(i < n1){
+        dataMahasiswa[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while(j < n2){
+        dataMahasiswa[k] = R[j];
+        j++;
+        k++;
     }
 }
 
-void mergesortByNim(vector<dataMhs> &dataMahasiswa, int left, int right){
+void mergeSortByNilaiAkhirDesc(vector<dataMhs> &dataMahasiswa, int left, int right){
     if(left < right){
-        int mid = (left + right) / 2;
-        mergesortByNim(dataMahasiswa, left, mid);
-        mergesortByNim(dataMahasiswa, mid + 1, right);
-        int i = left;
-        int j = mid + 1;
-        int k = 0;
-        vector<dataMhs> temp;
-        while(i <= mid && j <= right){
-            if(dataMahasiswa[i].nim < dataMahasiswa[j].nim){
-                temp.push_back(dataMahasiswa[i]);
-                i++;
-            }else{
-                temp.push_back(dataMahasiswa[j]);
-                j++;
-            }
-            k++;
-        }
-        while(i <= mid){
-            temp.push_back(dataMahasiswa[i]);
-            i++;
-            k++;
-        }
-        while(j <= right){
-            temp.push_back(dataMahasiswa[j]);
-            j++;
-            k++;
-        }
-        for(int i = left; i <= right; i++){
-            dataMahasiswa[i] = temp[i - left];
-        }
+        int mid = left + (right - left) / 2;
+
+        mergeSortByNilaiAkhirDesc(dataMahasiswa, left, mid);
+        mergeSortByNilaiAkhirDesc(dataMahasiswa, mid + 1, right);
+
+        mergeByNilaiAkhirDesc(dataMahasiswa, left, mid, right);
     }
 }
 
-void mergesortByNama(vector<dataMhs> &dataMahasiswa, int left, int right){
-    if(left < right){
-        int mid = (left + right) / 2;
-        mergesortByNama(dataMahasiswa, left, mid);
-        mergesortByNama(dataMahasiswa, mid + 1, right);
-        int i = left;
-        int j = mid + 1;
-        int k = 0;
-        vector<dataMhs> temp;
-        while(i <= mid && j <= right){
-            if(dataMahasiswa[i].nama < dataMahasiswa[j].nama){
-                temp.push_back(dataMahasiswa[i]);
-                i++;
-            }else{
-                temp.push_back(dataMahasiswa[j]);
-                j++;
-            }
-            k++;
-        }
-        while(i <= mid){
-            temp.push_back(dataMahasiswa[i]);
-            i++;
-            k++;
-        }
-        while(j <= right){
-            temp.push_back(dataMahasiswa[j]);
-            j++;
-            k++;
-        }
-        for(int i = left; i <= right; i++){
-            dataMahasiswa[i] = temp[i - left];
+void deleteByNim(vector<dataMhs> &dataMahasiswa){
+    string temp;
+    cout << "Masukkan NIM : ";
+    cin >> temp;
+    while(isEmpty(temp) || !isNumber(temp) || !isInRange(stoi(temp), 1000, 9999)){
+        Warning w;
+        cout << w.what() << endl;
+        cout << "Masukkan NIM : ";
+        cin >> temp;
+    }
+    int nim = stoi(temp);
+    if(!isNimThere(nim)){
+        Warning w;
+        cout << "NIM tidak ditemukan" << endl;
+        return;
+    }
+    for(int i = 0; i < dataMahasiswa.size(); i++){
+        if(dataMahasiswa[i].nim == nim){
+            dataMahasiswa.erase(dataMahasiswa.begin() + i);
         }
     }
 }
-
 
 int mainMenu(){
     cout << "+" << setfill('-') << setw(50) << "+" << endl;
     cout << "|" << setw(10) << " " << "Program Input Nilai Mahasiswa" << setw(10) << " " << "|" << endl;
     cout << "+" << setfill('-') << setw(50) << "+" << endl;
     cout << "|" << setfill(' ') << setw(50) << "|" << endl;
-    cout << "|" << setfill(' ') << " 1. Input Nilai Mahasiswa" << setw(25) << "|" << endl;
-    cout << "|" << setfill(' ') << " 2. Lihat Nilai Mahasiswa" << setw(25) << "|" << endl;
-    cout << "|" << setfill(' ') << " 3. Keluar" << setw(40) << "|" << endl;
+    cout << "|" << setfill(' ') << " 1. Input Data Mahasiswa" << setw(26) << "|" << endl;
+    cout << "|" << setfill(' ') << " 2. Tampilkan Data Mahasiswa" << setw(22) << "|" << endl;
+    cout << "|" << setfill(' ') << " 3. Delete Data Mahasiswa" << setw(25) << "|" << endl;
+    cout << "|" << setfill(' ') << " 4. Exit" << setw(42) << "|" << endl;
     cout << "+" << setfill('-') << setw(50) << "+" << endl;
     cout << "Pilih Menu : ";
     int menu;
@@ -288,16 +265,29 @@ int main(){
                 break;
             case 2:
                 clearscreen();
-                mergesortByNilaiAkhir(dataMahasiswa, 0, dataMahasiswa.size() - 1);
+                mergeSortByNilaiAkhirDesc(dataMahasiswa, 0, dataMahasiswa.size() - 1);
                 tableData(dataMahasiswa);
+                cout << "Tekan Enter Untuk Kembali Ke Menu Utama" << endl;
+                cin.get();
+                cin.get();
                 break;
             case 3:
-                cout << "Terima Kasih" << endl;
+                clearscreen();
+                tableData(dataMahasiswa);
+                deleteByNim(dataMahasiswa);
+                cout << "Tekan Enter Untuk Kembali Ke Menu Utama" << endl;
+                cin.get();
+                cin.get();
+                break;
+            case 4:
+                clearscreen();
+                cout << "Terima Kasih Telah Menggunakan Program Ini" << endl;
                 break;
             default:
+                clearscreen();
                 cout << "Menu Tidak Tersedia" << endl;
                 break;
         }
-    }while(menu != 3);
+    }while(menu != 4);
     return 0;
 }
