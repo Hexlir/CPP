@@ -124,11 +124,42 @@ inline void setIO(string a = "") {
 #endif
 }
 
+bool isVisited[101][101];
+i32 grid[101][101];
+i32 counter = 0;
+
+void jawbreaker(i32 x, i32 y, i32 c){
+    if(x >= 0 && y >= 0){
+        if(grid[x][y] == c && !isVisited[x][y]){
+            isVisited[x][y] = true;
+            counter++;
+            jawbreaker(x+1, y, c);
+            jawbreaker(x-1, y, c);
+            jawbreaker(x, y+1, c);
+            jawbreaker(x, y-1, c);
+        }
+    }
+}
+
 inline void solve() {
-    i32 n;
-    read(n);
-    rep(i, 1, n+1){
-        writeln(i);
+    i32 n, m; read(n); read(m);
+
+    rep(i, 0, n){
+        rep(j, 0, m){
+            read(grid[i][j]);
+        }
+    }
+
+    i32 x, y; read(x); read(y);
+    i32 c = grid[x][y];
+
+    jawbreaker(x, y, c);
+
+    if(x >= n || y >= m){
+        counter = 0;
+    }
+    else{
+        writeln(counter*(counter-1));
     }
 }
 

@@ -124,11 +124,58 @@ inline void setIO(string a = "") {
 #endif
 }
 
+i32 R, C;
+i32 m[1000][1000];
+i32 ans;
+str answer[100000];
+
+bool homogen(i32 r, i32 c , i32 k){
+    i32 val = m[r][c];
+    rep(i, r, r+k){
+        rep(j, c, c+k){
+            if(m[i][j] != val) return false;
+        }
+    }
+    return true;
+}
+
+void quadtree(i32 r, i32 c, i32 k, str s){
+    if(homogen(r, c, k)){
+        if(m[r][c] == 1){
+            answer[ans] = "1" + s;
+            ans++;
+        }
+    }
+    else{
+        quadtree(r, c, k/2, s+"0");
+        quadtree(r, c+k/2, k/2, s+"1");
+        quadtree(r+(k/2), c, k/2, s+"2");
+        quadtree(r+(k/2), c+(k/2), k/2, s+"3");
+    }
+}
+
 inline void solve() {
-    i32 n;
-    read(n);
-    rep(i, 1, n+1){
-        writeln(i);
+    read(R); read(C);
+    i32 maxK = max(R, C);
+    i32 poww = 1;
+    while(poww < maxK){
+        poww *= 2;
+    }
+    rep(i, 0, poww){
+        rep(j, 0, poww){
+            m[i][j] = 0;
+        }
+    }
+    rep(i, 0, R){
+        rep(j, 0, C){
+            read(m[i][j]);
+        }
+    }
+    ans = 0;
+    quadtree(0, 0, poww, "");
+    writeln(ans);
+    rep(i, 0, ans){
+        writeln(answer[i].c_str());
     }
 }
 

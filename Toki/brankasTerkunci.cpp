@@ -124,12 +124,23 @@ inline void setIO(string a = "") {
 #endif
 }
 
-inline void solve() {
-    i32 n;
-    read(n);
-    rep(i, 1, n+1){
-        writeln(i);
+i32 N, K, memo[100];
+
+void combine(i32 n, i32 k, i32 depth){
+    if(k == depth){
+        rep(i,0,k) write(memo[i], " "); writeln("");
     }
+    else{
+        for(int i = memo[depth - 1] + 1; i <= n; i++){
+            memo[depth] = i;
+            combine(n,k, depth + 1);
+        }
+    }
+}
+
+inline void solve() {
+    read(K); read(N);
+    combine(K,N,0);
 }
 
 int main() {
