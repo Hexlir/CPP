@@ -1,4 +1,4 @@
-#include "bits/stdc++.h"
+#include "iostream"
 
 using namespace std;
 
@@ -9,11 +9,11 @@ int pow(int var, int pangkat){
 
 int main(){
     int var, pangkat;
-    printf("Masukkan angka: ");
+    printf("Masukkan bilangan : ");
     scanf("%d", &var);
-    printf("Masukkan pangkat: ");
+    printf("Masukkan pangkat : ");
     scanf("%d", &pangkat);
     int hasil = pow(var, pangkat);
-    printf("%d pangkat %d adalah %d", var, pangkat, hasil);
+    printf("%d\n",hasil);
     return 0;
 }

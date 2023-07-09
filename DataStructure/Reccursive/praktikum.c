@@ -4,7 +4,7 @@
 int power(int var, int pangkat){
     if(pangkat == 0){
         return 1;
-    }else{
+    else{
         return var * power(var, pangkat-1);
     }
 }

@@ -1,9 +1,7 @@
 #include "bits/stdc++.h"
 
-using namespace std;
-
-int main(int argc, char const *argv[])
-{
-    cout << "Hello World!" << endl;
-    return 0;
+int main(){
+    int a, b;
+    std::cin >> a >> b;
+    std::cout << a + b << std::endl;
 }
