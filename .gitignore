@@ -4,3 +4,10 @@ Algoritma Pemrograman
 # Ignore every .exe extension
 *.exe
 *.o
+
+.cache
+.fleet
+.idea
+.vscode
+
+output
